@@ -17,6 +17,7 @@
             font-family: Arial, Helvetica, sans-serif;
             min-height: 100vh;
             transition: 0.6s ease, color 0.6s ease;
+            width: 99%;
         }
 
         body.day {
@@ -554,7 +555,6 @@
             overflow: hidden;
         }
 
-        /* TOP LABEL */
         .expect-tag {
             display: flex;
             align-items: center;
@@ -565,7 +565,7 @@
             margin-bottom: 1.2rem;
         }
 
-        /* HEADING */
+   
         .expect-wrapper h2 {
             font-family: 'Montserrat', sans-serif;
             font-size: 4rem;
@@ -577,14 +577,14 @@
             margin-bottom: 3rem;
         }
 
-        /* BOTTOM AREA */
+   
         .expect-bottom {
             display: flex;
             align-items: flex-start;
             gap: 2rem;
         }
 
-        /* LEFT ICONS NAV */
+       
         .expect-icons {
             display: flex;
             flex-direction: column;
@@ -620,7 +620,7 @@
             font-size: 1.5rem;
         }
 
-        /* PHONE IMAGE */
+ 
         .expect-phone {
             flex: 1;
             display: flex;
@@ -641,7 +641,7 @@
             display: block;
         }
 
-        /* RIGHT CONTENT */
+     
         .expect-content {
             flex-shrink: 0;
             max-width: 340px;
@@ -934,7 +934,7 @@
             height: auto;
         }
 
-        /* ===================== SCROLL ANIMATIONS ===================== */
+ 
         .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -962,7 +962,180 @@
             transition-delay: 0.4s;
         }
 
-        /* ===================== FOOTER ===================== */
+        .testimonials-wrapper {
+           background-color: #d8fa9c;
+            border-radius: 2rem;
+            margin: 2rem;
+            padding: 60px;
+            overflow: hidden;
+        }
+
+        .testimonials-tag {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            color: #1a5c2a;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+        }
+
+        .testimonials-heading {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #111;
+            line-height: 1.05;
+            margin-bottom: 3rem;
+            width: 65%;
+        }
+
+        .testimonials-carousel {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonials-track {
+            display: flex;
+            gap: 1.5rem;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .testimonial-card {
+            background-color: #fff;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            flex: 0 0 calc(33.333% - 1rem);
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.13);
+        }
+
+        .testimonial-stars {
+            display: flex;
+            gap: 4px;
+        }
+
+        .testimonial-stars span {
+            color: #f5c518;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-quote {
+            font-size: 1rem;
+            color: #333;
+            line-height: 1.7;
+            flex: 1;
+            opacity: 1;
+            margin-bottom: 0;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+        }
+
+        .author-avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .author-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .author-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 0;
+            opacity: 1;
+        }
+
+        .author-role {
+            font-size: 0.82rem;
+            color: #888;
+            margin-bottom: 0;
+            opacity: 1;
+        }
+
+        .testimonials-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 2.5rem;
+        }
+
+        .testimonials-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .t-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            border: none;
+        }
+
+        .t-dot.active {
+            background-color: #111;
+            transform: scale(1.3);
+        }
+
+        .testimonials-arrows {
+            display: flex;
+            gap: 12px;
+        }
+
+        .t-arrow {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #111;
+            color: #6DED3A;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .t-arrow:hover {
+            background-color: #333;
+            transform: scale(1.08);
+        }
+
+        .t-arrow:disabled {
+            background-color: rgba(0, 0, 0, 0.15);
+            color: rgba(0,0,0,0.3);
+            cursor: not-allowed;
+            transform: none;
+        }
         .footer-wrapper {
             width: 97%;
             background-color: #f0f0f0;
@@ -1102,7 +1275,6 @@
             color: #000;
         }
 
-        /* Footer responsive */
         @media (max-width: 768px) {
             .footer-wrapper {
                 margin: 0.5rem;
@@ -1151,7 +1323,7 @@
             }
         }
 
-        /* ===================== TABLET (max 1024px) ===================== */
+       
         @media (max-width: 1024px) {
 
             .nav-actions,
@@ -1175,9 +1347,12 @@
                 left: 50%;
                 transform: translateX(-50%);
             }
+
+            .testimonial-card {
+                flex: 0 0 calc(50% - 0.75rem);
+            }
         }
 
-        /* ===================== MOBILE (max 768px) ===================== */
         @media (max-width: 768px) {
 
             /* Navbar - logo only */
@@ -1193,19 +1368,20 @@
                 transform: translateX(-50%);
             }
 
-            /* Containers - full width, small margin */
+           
             .container,
             .container-one,
             .promise-wrapper,
             .expect-wrapper,
             .essence-wrapper,
             .faq-wrapper,
-            .cta-wrapper {
+            .cta-wrapper,
+            .testimonials-wrapper {
                 margin: 0.5rem;
                 border-radius: 1.2rem;
             }
 
-            /* Hero */
+         
             .hero {
                 padding: 5rem 1rem 1rem;
             }
@@ -1215,7 +1391,6 @@
                 font-size: 1.6rem;
             }
 
-            /* Bee */
             .bee p {
                 width: 90%;
                 font-size: 1.1rem;
@@ -1231,7 +1406,7 @@
                 max-width: 200px;
             }
 
-            /* Sections stack vertically */
+           
             .section {
                 flex-direction: column;
                 padding: 24px 20px;
@@ -1260,7 +1435,7 @@
                 max-width: 240px;
             }
 
-            /* FIX 1 - Who section: separate gallery from section below */
+           
             .container-one {
                 padding: 24px 20px 0 20px;
                 margin-bottom: 1rem;
@@ -1284,7 +1459,6 @@
                 height: 160px;
             }
 
-            /* Promise */
             .promise-section {
                 flex-direction: column;
                 padding: 24px 20px;
@@ -1307,7 +1481,7 @@
                 max-width: 240px;
             }
 
-            /* FIX 2 - Expect: center image, icons below image */
+          
             .expect-wrapper {
                 padding: 24px 20px 0 20px;
             }
@@ -1357,7 +1531,7 @@
                 font-size: 0.9rem;
             }
 
-            /* FIX 3 - Essence: center image */
+          
             .essence-section {
                 flex-direction: column;
                 padding: 24px 20px;
@@ -1412,7 +1586,7 @@
                 font-size: 0.9rem;
             }
 
-            /* CTA */
+      
             .cta-wrapper {
                 flex-direction: column;
                 padding: 24px 20px;
@@ -1438,9 +1612,29 @@
             .cta-right img {
                 max-width: 260px;
             }
+
+            .testimonials-wrapper {
+                padding: 24px 20px;
+            }
+
+            .testimonials-heading {
+                font-size: 1.5rem;
+                width: 100%;
+                margin-bottom: 1.5rem;
+            }
+
+            .testimonial-card {
+                flex: 0 0 85vw;
+            }
+
+            .testimonials-controls {
+                flex-direction: column;
+                gap: 1.2rem;
+                align-items: center;
+            }
         }
 
-        /* ===================== SMALL MOBILE (max 480px) ===================== */
+       
         @media (max-width: 480px) {
 
             .hero h2 {
@@ -1520,6 +1714,114 @@
                 text-align: center;
             }
         }
+        .activity-ticker {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            pointer-events: none;
+        }
+
+        .ticker-toast {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 50px;
+            padding: 10px 16px 10px 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+            font-size: 0.88rem;
+            color: #111;
+            max-width: 280px;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            pointer-events: none;
+        }
+
+        .ticker-toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .ticker-toast.hide {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        .ticker-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .ticker-text {
+            line-height: 1.4;
+            margin-bottom: 0;
+            opacity: 1;
+        }
+
+        .ticker-text strong {
+            font-weight: 700;
+            color: #111;
+        }
+
+        .ticker-text span {
+            color: #555;
+        }
+
+        .ticker-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background-color: #6DED3A;
+            flex-shrink: 0;
+            animation: pulse-dot 1.5s ease infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.4); opacity: 0.6; }
+        }
+
+        body.night .ticker-toast {
+            background-color: rgba(30, 40, 50, 0.95);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: #f0f0f0;
+        }
+
+        body.night .ticker-text strong {
+            color: #f0f0f0;
+        }
+
+        body.night .ticker-text span {
+            color: #aaa;
+        }
+
+        @media (max-width: 480px) {
+            .activity-ticker {
+                bottom: 1rem;
+                left: 0.8rem;
+            }
+
+            .ticker-toast {
+                max-width: 220px;
+                font-size: 0.8rem;
+                padding: 8px 12px 8px 8px;
+            }
+        }
     </style>
 </head>
 
@@ -1535,14 +1837,14 @@
         </div>
     </div>
 
-    <!-- NAV SECTION -->
+  
     <div class="navbar">
         <div>
             <img src="./modes images/status01.svg" alt="hivvy-logo">
         </div>
         <div class="nav-actions">
             <button class="getstarted">Get Started</button>
-            <a class="signin" href="">Sign in</a>
+            <a class="signin" href="./login.html">Sign in</a>
         </div>
         <button class="download">
             <span>Download</span>
@@ -1550,6 +1852,8 @@
             <img src="./modes images/apple.png" alt="apple logo" width="18px">
         </button>
     </div>
+
+    <div class="activity-ticker" id="activityTicker"></div>
 
     <!-- BODY  -->
     <div class="hero reveal">
@@ -1574,7 +1878,7 @@
                     with purpose. For leaders, for creators, for people who care.</p>
                 <div class="buttons">
                     <button class="btn-download">Download </button>
-                    <button class="btn-signup">Sign Up Here →</button>
+                    <a href="./login.html"><button class="btn-signup">Sign Up Here →</button></a>
                 </div>
             </div>
 
@@ -1708,6 +2012,114 @@
                     <img src="./modes images/status15.png" alt="phone mockup">
                 </div>
             </section>
+        </div>
+    </section>
+    <section>
+        <div class="testimonials-wrapper reveal reveal-delay-1">
+            <div class="testimonials-tag">
+                <span class="material-symbols-outlined">format_quote</span>
+                Real People, Real Stories
+            </div>
+
+            <h2 class="testimonials-heading">WHAT OUR COMMUNITY IS SAYING ABOUT HIVVY</h2>
+
+            <div class="testimonials-carousel">
+                <div class="testimonials-track" id="testimonialsTrack">
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                        <p class="testimonial-quote">"Hivvy completely changed how I connect with my audience. I found a whole community of educators who actually push me to think deeper. It doesn't feel like scrolling — it feels like growing."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar" style="background-color: #41b75c;">AN</div>
+                            <div class="author-info">
+                                <p class="author-name">Adaeze Nwosu</p>
+                                <p class="author-role">Educator & Content Creator, Lagos</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                        <p class="testimonial-quote">"I've tried every social platform out there. Hivvy is the first one where I actually feel like the people I'm talking to get what I'm building. The Hives feature alone is worth it."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar" style="background-color: #2c5364;">KO</div>
+                            <div class="author-info">
+                                <p class="author-name">Kofi Owusu</p>
+                                <p class="author-role">Startup Founder, Accra</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                        <p class="testimonial-quote">"As a creative director, I need spaces that inspire — not exhaust me. Hivvy does exactly that. My Hive has grown to 2,000+ members in two months and the engagement is unlike anything I've seen."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar" style="background-color: #afc1c1; color: #111;">ZM</div>
+                            <div class="author-info">
+                                <p class="author-name">Zanele Mokoena</p>
+                                <p class="author-role">Creative Director, Johannesburg</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                        <p class="testimonial-quote">"I built a Hive around youth leadership and the response has been overwhelming. Hivvy gives leaders like me real tools to monetize and grow without selling out our communities."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar" style="background-color:#d8fa9c; color: #111;">TB</div>
+                            <div class="author-info">
+                                <p class="author-name">Taiwo Badmus</p>
+                                <p class="author-role">Youth Leader & Speaker, Abuja</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                        <p class="testimonial-quote">"The quality of conversations on Hivvy is on a different level. I came for the community, stayed for the connections. Two of my closest collaborators today are people I met in a Hive."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar" style="background-color: #fef3c6; color: #111;">IN</div>
+                            <div class="author-info">
+                                <p class="author-name">Ifeoma Nkemdirim</p>
+                                <p class="author-role">Tech Entrepreneur, Port Harcourt</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                        <p class="testimonial-quote">"I was skeptical at first — another social app? But Hivvy is genuinely different. The intentionality behind every feature shows. It's built for people who want more than just likes."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar" style="background-color: #d8fa9c; color: #111;">EM</div>
+                            <div class="author-info">
+                                <p class="author-name">Emmanuel Mensah</p>
+                                <p class="author-role">Digital Strategist, Nairobi</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="testimonials-controls">
+                <div class="testimonials-dots" id="testimonialsDots"></div>
+                <div class="testimonials-arrows">
+                    <button class="t-arrow" id="tPrev" aria-label="Previous testimonials">&#8592;</button>
+                    <button class="t-arrow" id="tNext" aria-label="Next testimonials">&#8594;</button>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1951,6 +2363,156 @@
         });
 
         revealElements.forEach(el => observer.observe(el));
+        (function () {
+            const track = document.getElementById('testimonialsTrack');
+            const dotsContainer = document.getElementById('testimonialsDots');
+            const prevBtn = document.getElementById('tPrev');
+            const nextBtn = document.getElementById('tNext');
+            const cards = track.querySelectorAll('.testimonial-card');
+
+            let currentIndex = 0;
+            let cardsPerView = 3;
+
+            function getCardsPerView() {
+                if (window.innerWidth <= 768) return 1;
+                if (window.innerWidth <= 1024) return 2;
+                return 3;
+            }
+
+            function totalSlides() {
+                return Math.ceil(cards.length / cardsPerView);
+            }
+
+            function buildDots() {
+                dotsContainer.innerHTML = '';
+                for (let i = 0; i < totalSlides(); i++) {
+                    const dot = document.createElement('button');
+                    dot.className = 't-dot' + (i === currentIndex ? ' active' : '');
+                    dot.addEventListener('click', () => goTo(i));
+                    dotsContainer.appendChild(dot);
+                }
+            }
+
+            function updateDots() {
+                dotsContainer.querySelectorAll('.t-dot').forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentIndex);
+                });
+            }
+
+            function goTo(index) {
+                currentIndex = Math.max(0, Math.min(index, totalSlides() - 1));
+                const cardWidth = cards[0].offsetWidth;
+                const gap = 24;
+                track.style.transform = `translateX(-${currentIndex * cardsPerView * (cardWidth + gap)}px)`;
+                updateDots();
+                prevBtn.disabled = currentIndex === 0;
+                nextBtn.disabled = currentIndex >= totalSlides() - 1;
+            }
+
+            prevBtn.addEventListener('click', () => goTo(currentIndex - 1));
+            nextBtn.addEventListener('click', () => goTo(currentIndex + 1));
+
+            function init() {
+                cardsPerView = getCardsPerView();
+                currentIndex = 0;
+                buildDots();
+                goTo(0);
+            }
+
+            window.addEventListener('resize', init);
+            init();
+
+            // Auto-advance every 5 seconds
+            setInterval(() => {
+                if (currentIndex >= totalSlides() - 1) {
+                    goTo(0);
+                } else {
+                    goTo(currentIndex + 1);
+                }
+            }, 5000);
+        })();
+
+        (function () {
+            const ticker = document.getElementById('activityTicker');
+
+            const activities = [
+                { name: 'Adaeze', location: 'Lagos', action: 'just joined Hivvy', color: '#257c34' },
+                { name: 'Kofi', location: 'Accra', action: 'created a new Hive', color: '#2c5364' },
+                { name: 'Zanele', location: 'Johannesburg', action: 'just joined Hivvy', color: '#afc1c1', textColor: '#111' },
+                { name: 'Taiwo', location: 'Abuja', action: 'started following 3 Hives', color: '#6DED3A', textColor: '#111' },
+                { name: 'Ifeoma', location: 'Port Harcourt', action: 'just joined Hivvy', color: '#d8fa9c', textColor: '#111' },
+                { name: 'Emmanuel', location: 'Nairobi', action: 'posted in a Hive', color: '#fef3c6', textColor: '#111' },
+                { name: 'Chidi', location: 'Enugu', action: 'just joined Hivvy', color: '#257c34' },
+                { name: 'Amara', location: 'Kano', action: 'earned their first token', color: '#2c5364' },
+                { name: 'Seun', location: 'Ibadan', action: 'just joined Hivvy', color: '#6DED3A', textColor: '#111' },
+                { name: 'Fatima', location: 'Kaduna', action: 'created a new Hive', color: '#afc1c1', textColor: '#111' },
+                { name: 'Tunde', location: 'Lagos', action: 'just joined Hivvy', color: '#fef3c6', textColor: '#111' },
+                { name: 'Ngozi', location: 'Owerri', action: 'started following 2 Hives', color: '#257c34' },
+                { name: 'Kwame', location: 'Kumasi', action: 'just joined Hivvy', color: '#2c5364' },
+                { name: 'Blessing', location: 'Benin City', action: 'posted in a Hive', color: '#d8fa9c', textColor: '#111' },
+                { name: 'Ola', location: 'Lekki', action: 'just joined Hivvy', color: '#6DED3A', textColor: '#111' },
+            ];
+
+            let queue = [...activities].sort(() => Math.random() - 0.5);
+            let queueIndex = 0;
+            const MAX_TOASTS = 1;
+
+            function getInitials(name) {
+                return name.slice(0, 2).toUpperCase();
+            }
+
+            function showToast() {
+                // Remove old toasts beyond max
+                const existing = ticker.querySelectorAll('.ticker-toast');
+                existing.forEach(t => {
+                    t.classList.remove('show');
+                    t.classList.add('hide');
+                    setTimeout(() => t.remove(), 400);
+                });
+
+                const activity = queue[queueIndex % queue.length];
+                queueIndex++;
+
+                const toast = document.createElement('div');
+                toast.className = 'ticker-toast';
+
+                const avatar = document.createElement('div');
+                avatar.className = 'ticker-avatar';
+                avatar.style.backgroundColor = activity.color;
+                avatar.style.color = activity.textColor || '#fff';
+                avatar.textContent = getInitials(activity.name);
+
+                const textEl = document.createElement('p');
+                textEl.className = 'ticker-text';
+                textEl.innerHTML = `<strong>${activity.name}</strong> <span>from ${activity.location} ${activity.action}</span>`;
+
+                const dot = document.createElement('div');
+                dot.className = 'ticker-dot';
+
+                toast.appendChild(avatar);
+                toast.appendChild(textEl);
+                toast.appendChild(dot);
+                ticker.appendChild(toast);
+
+                // Trigger show
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => toast.classList.add('show'));
+                });
+
+                // Auto-hide after 4s
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    toast.classList.add('hide');
+                    setTimeout(() => toast.remove(), 400);
+                }, 4000);
+            }
+
+            // Show first toast after 3s, then every 6s
+            setTimeout(() => {
+                showToast();
+                setInterval(showToast, 6000);
+            }, 3000);
+        })();
     </script>
 </body>
 

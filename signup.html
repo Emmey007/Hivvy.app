@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up to Hivvy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #e8f5f0;
+            --card-bg: #ffffff;
+            --border: #d9ede6;
+            --text-primary: #1a1a1a;
+            --text-secondary: #8a9a94;
+            --accent: #2db84b;
+            --accent-hover: #25a042;
+            --input-bg: #f4fbf7;
+            --input-border: #d0e8dc;
+        }
+
+        body {
+            background: var(--bg);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 36px 32px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            animation: fadeUp 0.4s ease;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+        }
+
+        .subtitle a {
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .subtitle a:hover {
+            text-decoration: underline;
+        }
+
+        .input-group {
+            margin-bottom: 14px;
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--input-bg);
+            border: 1.5px solid var(--input-border);
+            border-radius: 12px;
+            padding: 14px 16px;
+            transition: border-color 0.2s;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: var(--accent);
+        }
+
+        .input-wrapper svg {
+            flex-shrink: 0;
+            opacity: 0.45;
+        }
+
+        .input-wrapper input {
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            width: 100%;
+        }
+
+        .input-wrapper input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 15px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            border: none;
+            border-radius: 9999px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 22px 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .divider span {
+            font-size: 13px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 13px 16px;
+            background: #fff;
+            border: 1.5px solid var(--input-border);
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: background 0.15s, border-color 0.15s;
+        }
+
+        .social-btn:hover {
+            background: var(--input-bg);
+            border-color: #b0cfc4;
+        }
+
+        .social-btn img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+        }
+
+        .footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .footer a {
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="logo">
+        <img src="./modes images/status01.svg" alt="">
+    </div>
+
+    <div class="card">
+        <h1>Create account 👋</h1>
+        <p class="subtitle">Already have one? <a href="./login.html">Sign in</a></p>
+
+        <form id="signup" novalidate>
+            <div class="input-group">
+                <div class="input-wrapper">
+                    <span class="material-symbols-outlined">person</span>
+                    <input type="text" name="username" placeholder="Username" autocomplete="username" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div class="input-wrapper">
+                    <span class="material-symbols-outlined">mail</span>
+                    <input type="email" name="email" placeholder="Email Address" autocomplete="email" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div class="input-wrapper">
+                    <span class="material-symbols-outlined">lock</span>
+                    <input type="password" name="password" placeholder="Password" autocomplete="new-password" required>
+                </div>
+            </div>
+
+            <button class="btn-primary" type="submit">Sign Up</button>
+        </form>
+
+        <div class="footer">
+            Already have an account? <a href="./login.html">Sign in</a>
+        </div>
+    </div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBA7iogs95p1azQ7gQ6tYZHspP7oDXmH-s",
+        authDomain: "hivvy-59a52.firebaseapp.com",
+        projectId: "hivvy-59a52",
+        storageBucket: "hivvy-59a52.firebasestorage.app",
+        messagingSenderId: "557372038667",
+        appId: "1:557372038667:web:bf4e84d069cef9406c710e"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // ✅ Inject alert styles
+    const style = document.createElement('style');
+    style.textContent = `
+        .hivvy-alert-wrap {
+            position: fixed;
+            top: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .hivvy-alert {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 22px;
+            border-radius: 18px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            min-width: 280px;
+            max-width: 360px;
+            pointer-events: auto;
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            transition: opacity 0.4s cubic-bezier(.4,0,.2,1), transform 0.4s cubic-bezier(.4,0,.2,1);
+            box-shadow: 0 8px 32px rgba(29,185,84,0.18), 0 2px 8px rgba(0,0,0,0.07);
+        }
+        .hivvy-alert.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .hivvy-alert.hide {
+            opacity: 0;
+            transform: translateY(-12px) scale(0.96);
+        }
+        .hivvy-alert-success {
+            background: linear-gradient(135deg, #e6f9ee 0%, #f0fff6 100%);
+            border: 1.5px solid #a8e6c0;
+            color: #0a5e35;
+        }
+        .hivvy-alert-error {
+            background: linear-gradient(135deg, #fff0f0 0%, #fff5f5 100%);
+            border: 1.5px solid #f5c0c0;
+            color: #a32d2d;
+        }
+        .hivvy-alert-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .hivvy-alert-success .hivvy-alert-icon {
+            background: #c2f0d3;
+        }
+        .hivvy-alert-error .hivvy-alert-icon {
+            background: #ffd6d6;
+        }
+        .hivvy-alert-text {}
+        .hivvy-alert-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        .hivvy-alert-sub {
+            font-size: 12px;
+            font-weight: 500;
+            opacity: 0.75;
+        }
+        .hivvy-alert-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            border-radius: 0 0 18px 18px;
+            background: #1db954;
+            width: 100%;
+            transform-origin: left;
+            animation: shrink 3s linear forwards;
+        }
+        @keyframes shrink {
+            from { transform: scaleX(1); }
+            to { transform: scaleX(0); }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // ✅ Create alert container
+    const alertWrap = document.createElement('div');
+    alertWrap.className = 'hivvy-alert-wrap';
+    document.body.appendChild(alertWrap);
+
+    function showAlert(type, title, sub) {
+        const existing = alertWrap.querySelector('.hivvy-alert');
+        if (existing) { existing.classList.add('hide'); setTimeout(() => existing.remove(), 350); }
+
+        const box = document.createElement('div');
+        box.className = `hivvy-alert hivvy-alert-${type}`;
+        box.style.position = 'relative';
+        box.style.overflow = 'hidden';
+        box.innerHTML = `
+            <div class="hivvy-alert-icon">${type === 'success' ? '🎉' : '😢'}</div>
+            <div class="hivvy-alert-text">
+                <div class="hivvy-alert-title">${title}</div>
+                <div class="hivvy-alert-sub">${sub}</div>
+            </div>
+            <div class="hivvy-alert-progress"></div>
+        `;
+        alertWrap.appendChild(box);
+        requestAnimationFrame(() => requestAnimationFrame(() => box.classList.add('show')));
+        setTimeout(() => { box.classList.add('hide'); setTimeout(() => box.remove(), 400); }, 3500);
+    }
+
+    document.getElementById('signup').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const username = e.target.username.value.trim();
+        const email = e.target.email.value.trim();
+        const password = e.target.password.value;
+
+        const btn = e.target.querySelector('.btn-primary');
+        btn.disabled = true;
+        btn.textContent = 'Creating account...';
+
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+            await setDoc(doc(db, 'users', userCredential.user.uid), {
+                uid: userCredential.user.uid,
+                username: username,
+                email: email
+            });
+
+            showAlert('success', 'Account created successfully! 🚀', 'Redirecting you to login...');
+            setTimeout(() => window.location.href = './login.html', 2500);
+
+        } catch (error) {
+            console.error("Signup error:", error.code, error.message);
+
+            let msg = 'Something went wrong. Try again.';
+            if (error.code === 'auth/email-already-in-use') msg = 'That email is already registered.';
+            if (error.code === 'auth/weak-password') msg = 'Password must be at least 6 characters.';
+            if (error.code === 'auth/invalid-email') msg = 'Please enter a valid email address.';
+
+            showAlert('error', 'Signup failed', msg);
+            btn.disabled = false;
+            btn.textContent = 'Sign Up';
+        }
+    });
+</script>
+</body>
+
+</html>

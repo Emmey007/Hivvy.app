@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hivvy — Sign In</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --green-primary: #1db954;
+      --green-dark: #17a349;
+      --green-deeper: #0f7a36;
+      --green-soft: #e6f9ee;
+      --green-mid: #c2f0d3;
+      --white: #ffffff;
+      --off-white: #f7fdf9;
+      --border: #d4eedd;
+      --text-dark: #0d1f14;
+      --text-mid: #456356;
+      --text-light: #8aab96;
+      --shadow-green: rgba(29, 185, 84, 0.18);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--off-white);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 10% 15%, rgba(29, 185, 84, 0.09) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 90% 80%, rgba(29, 185, 84, 0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 40% at 50% 50%, rgba(194, 240, 211, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(29, 185, 84, 0.08) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .stage {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      z-index: 1;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 36px 32px 28px;
+      display: flex;
+      flex-direction: column;
+      box-shadow:
+        0 1px 3px rgba(13, 31, 20, 0.04),
+        0 8px 24px rgba(13, 31, 20, 0.07),
+        0 0 0 1px var(--border);
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      width: 100%;
+      transform: translateY(12px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .card.active {
+      opacity: 1;
+      pointer-events: auto;
+      position: relative;
+      transform: translateY(0);
+    }
+
+    .main-card .heading {
+      font-size: clamp(22px, 6vw, 27px);
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.6px;
+      margin-bottom: 5px;
+    }
+
+    .main-card .subheading {
+      font-size: 13.5px;
+      color: var(--text-light);
+      margin-bottom: 28px;
+    }
+
+    .main-card .subheading a {
+      color: var(--green-primary);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .input-wrap {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .input-wrap .icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      font-size: 15px;
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .input-wrap input {
+      width: 100%;
+      padding: 13px 14px 13px 42px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text-dark);
+      background: var(--off-white);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input-wrap input:focus {
+      border-color: var(--green-primary);
+      box-shadow: 0 0 0 3.5px rgba(29, 185, 84, 0.13);
+      background: var(--white);
+    }
+
+    .input-wrap input::placeholder {
+      color: #bcd0c4;
+    }
+
+    .eye-btn {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-light);
+      font-size: 15px;
+      padding: 0;
+      line-height: 1;
+    }
+
+    .forgot {
+      font-size: 13px;
+      color: var(--green-primary);
+      margin-bottom: 22px;
+      cursor: pointer;
+      width: fit-content;
+      font-weight: 600;
+      user-select: none;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 15px;
+      background: var(--green-primary);
+      color: var(--white);
+      border: none;
+      border-radius: 50px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 15.5px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.1px;
+      box-shadow: 0 4px 18px var(--shadow-green);
+      margin-bottom: 20px;
+    }
+
+    .login-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .divider hr {
+      flex: 1;
+      border: none;
+      border-top: 1.5px solid var(--border);
+    }
+
+    .divider span {
+      font-size: 12px;
+      color: var(--text-light);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .social-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      border: 1.5px solid var(--border);
+      border-radius: 50px;
+      background: var(--white);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-dark);
+      cursor: pointer;
+      margin-bottom: 9px;
+      text-align: left;
+    }
+
+    .social-btn .s-icon {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── ADMIN BUTTON ── */
+    .admin-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      border: 1.5px solid var(--border);
+      border-radius: 50px;
+      background: var(--white);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-mid);
+      cursor: pointer;
+      margin-bottom: 9px;
+      text-align: left;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .admin-btn:hover {
+      border-color: #0d1f14;
+      color: #0d1f14;
+      background: #f2faf5;
+    }
+    .admin-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+    .admin-btn .s-icon {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── NOTICE BANNERS ── */
+    .notice-banner {
+      display: none;
+      align-items: flex-start;
+      gap: 10px;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.55;
+    }
+    .notice-banner.show { display: flex; }
+    .notice-banner.banned {
+      background: #fff0f0;
+      border: 1.5px solid #f5c0c0;
+      color: #a32d2d;
+    }
+    .notice-banner.noaccess {
+      background: #fff8e6;
+      border: 1.5px solid #f5dfa0;
+      color: #7a5c00;
+    }
+
+    .legal {
+      margin-top: 20px;
+      font-size: 11px;
+      color: var(--text-light);
+      text-align: center;
+      line-height: 1.65;
+    }
+
+    .legal a {
+      color: var(--green-primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .social-card .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-light);
+      margin-bottom: 22px;
+      padding: 0;
+    }
+
+    .social-card .provider-badge {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .provider-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 1.5px solid var(--border);
+    }
+
+    .provider-name {
+      font-size: clamp(18px, 5vw, 21px);
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.3px;
+    }
+
+    .provider-tagline {
+      font-size: 12.5px;
+      color: var(--text-light);
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    .s-heading {
+      font-size: clamp(16px, 4.5vw, 19px);
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .s-sub {
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+
+    .permission-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-bottom: 24px;
+    }
+
+    .permission-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--text-mid);
+      font-weight: 500;
+    }
+
+    .perm-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: var(--green-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    .continue-btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 50px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 11px;
+      color: var(--white);
+      letter-spacing: 0.1px;
+    }
+
+    .continue-btn:disabled {
+      opacity: 0.75;
+      cursor: not-allowed;
+    }
+
+    .google-btn { background: #4285F4; }
+
+    .cancel-btn {
+      width: 100%;
+      padding: 13px;
+      background: none;
+      border: 1.5px solid var(--border);
+      border-radius: 50px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-mid);
+      cursor: pointer;
+    }
+
+    .alert-wrap {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    .alert-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      min-width: 260px;
+      pointer-events: auto;
+      opacity: 0;
+      transform: translateY(-16px) scale(0.97);
+      transition: opacity 0.35s cubic-bezier(.4, 0, .2, 1), transform 0.35s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .alert-box.show { opacity: 1; transform: translateY(0) scale(1); }
+    .alert-box.hide { opacity: 0; transform: translateY(-10px) scale(0.97); }
+
+    .alert-success {
+      background: #e6f9ee;
+      border: 1.5px solid #a8e6c0;
+      color: #0f6e45;
+    }
+
+    .alert-error {
+      background: #fff0f0;
+      border: 1.5px solid #f5c0c0;
+      color: #a32d2d;
+    }
+
+    @media (max-width: 380px) {
+      body { padding: 14px; align-items: flex-start; padding-top: 28px; }
+      .card { padding: 22px 16px 20px; border-radius: 18px; }
+      .main-card .heading { font-size: 21px; }
+      .social-btn { font-size: 12.5px; padding: 10px 14px; }
+      .login-btn, .continue-btn { font-size: 14.5px; padding: 13px; }
+    }
+
+    @media (min-width: 381px) and (max-width: 480px) {
+      body { align-items: flex-start; padding-top: 36px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="stage">
+    <div class="logo">
+      <img src="./modes images/status01.svg" alt="">
+    </div>
+
+    <div class="card main-card active" id="mainCard">
+      <div class="heading">Welcome back 👋</div>
+      <div class="subheading">New here? <a href="./signup.html">Create an account</a></div>
+
+      <!-- Banned notice -->
+      <div class="notice-banner banned" id="bannedBanner">
+        🚫 Your account has been suspended. Contact support if you think this is a mistake.
+      </div>
+
+      <!-- No admin access notice -->
+      <div class="notice-banner noaccess" id="noAccessBanner">
+        🔒 You don't have admin access. Contact the platform owner.
+      </div>
+
+      <form id="signin">
+        <div class="input-wrap">
+          <span class="icon">
+            <img src="./modes images/email.png" alt="" width="20px">
+          </span>
+          <input type="email" name="email" id="emailInput" placeholder="Email Address" autocomplete="email" />
+        </div>
+
+        <div class="input-wrap">
+          <span class="icon">
+            <img src="./modes images/padlock.png" alt="" width="20px">
+          </span>
+          <input type="password" name="password" id="pwdInput" placeholder="Password" autocomplete="current-password" />
+          <button type="button" class="eye-btn" onclick="togglePwd()" aria-label="Toggle password"></button>
+        </div>
+
+        <div class="forgot" role="button">Forgot password?</div>
+        <button class="login-btn" type="submit">Sign In</button>
+      </form>
+
+      <div class="divider"><hr /><span>or continue with</span><hr /></div>
+
+      <button id="googlesign" class="social-btn google">
+        <span class="s-icon">
+          <img src="./modes images/google.png" alt="" width="30px">
+        </span> Continue with Google
+      </button>
+
+      <!-- Admin Dashboard button -->
+      <button id="adminBtn" class="admin-btn">
+        <span class="s-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1ZM12 11.99H19C18.47 16.11 15.72 19.78 12 20.93V12H5V6.3L12 3.19V11.99Z" fill="currentColor"/>
+          </svg>
+        </span>
+        Admin Dashboard
+      </button>
+
+      <div class="legal">
+        By signing in you agree to Hivvy's<br>
+        <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+      </div>
+    </div>
+
+    <div class="card social-card" id="googleCard">
+      <button class="back-btn" onclick="goBack()">← Back</button>
+      <div class="provider-badge">
+        <div class="provider-logo" style="background:#f0f4ff;">
+          <img src="./modes images/google.png" alt="" width="30px">
+        </div>
+        <div>
+          <div class="provider-name">Google</div>
+          <div class="provider-tagline">accounts.google.com</div>
+        </div>
+      </div>
+      <div class="s-heading">Continue with Google</div>
+      <div class="s-sub">Sign in using your Google account. We'll access the following from your profile.</div>
+      <ul class="permission-list">
+        <li><div class="perm-icon">🪪</div> Your name and profile photo</li>
+        <li><div class="perm-icon">📧</div> Your Google email address</li>
+        <li><div class="perm-icon">🔐</div> Secure, passwordless sign-in</li>
+      </ul>
+      <button class="continue-btn google-btn" onclick="goBack()">Continue with Google</button>
+      <button class="cancel-btn" onclick="goBack()">Cancel</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup }
+      from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBA7iogs95p1azQ7gQ6tYZHspP7oDXmH-s",
+      authDomain: "hivvy-59a52.firebaseapp.com",
+      projectId: "hivvy-59a52",
+      storageBucket: "hivvy-59a52.firebasestorage.app",
+      messagingSenderId: "557372038667",
+      appId: "1:557372038667:web:bf4e84d069cef9406c710e"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // ── SHOW BANNERS FROM URL PARAMS ──
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('error') === 'banned') {
+      document.getElementById('bannedBanner').classList.add('show');
+    }
+    if (params.get('error') === 'noaccess') {
+      document.getElementById('noAccessBanner').classList.add('show');
+    }
+
+    const signInForm = document.getElementById('signin');
+    const loginBtn = signInForm.querySelector('.login-btn');
+
+    // ── NORMAL SIGN IN ──
+    signInForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById('emailInput').value.trim();
+      const password = document.getElementById('pwdInput').value;
+
+      if (!email || !password) {
+        showAlert('error', 'Please fill in both fields.');
+        return;
+      }
+
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'Signing in...';
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const userDocSnap = await getDoc(doc(db, 'users', userCredential.user.uid));
+
+        // Block banned users
+        if (userDocSnap.exists() && userDocSnap.data().status === 'banned') {
+          await signOut(auth);
+          document.getElementById('bannedBanner').classList.add('show');
+          loginBtn.disabled = false;
+          loginBtn.textContent = 'Sign In';
+          return;
+        }
+
+        showAlert('success', "You're logged in, champ! 👑");
+        setTimeout(() => window.location.href = './dashboard.html', 1500);
+
+      } catch (error) {
+        console.error("Login error:", error.code, error.message);
+        const errorMessages = {
+          'auth/invalid-credential': 'Wrong email or password.',
+          'auth/user-not-found': 'No account found with this email.',
+          'auth/wrong-password': 'Incorrect password.',
+          'auth/invalid-email': 'Please enter a valid email address.',
+          'auth/user-disabled': 'This account has been disabled.',
+          'auth/too-many-requests': 'Too many attempts. Please try again later.',
+          'auth/network-request-failed': 'Network error. Check your connection.',
+        };
+        showAlert('error', errorMessages[error.code] || `Error: ${error.code}`);
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Sign In';
+      }
+    });
+
+    // ── GOOGLE SIGN IN ──
+    document.getElementById('googlesign').addEventListener('click', () => {
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider)
+        .then(async (result) => {
+          const userDocSnap = await getDoc(doc(db, 'users', result.user.uid));
+          if (userDocSnap.exists() && userDocSnap.data().status === 'banned') {
+            await signOut(auth);
+            document.getElementById('bannedBanner').classList.add('show');
+            return;
+          }
+          showAlert('success', "You're logged in, champ! 👑");
+          setTimeout(() => window.location.href = './dashboard.html', 1500);
+        })
+        .catch((error) => {
+          console.error("Google sign-in error:", error.code, error.message);
+          showAlert('error', 'Google sign-in failed. Try again.');
+        });
+    });
+
+    // ── ADMIN DASHBOARD BUTTON ──
+    document.getElementById('adminBtn').addEventListener('click', async () => {
+      const email = document.getElementById('emailInput').value.trim();
+      const password = document.getElementById('pwdInput').value;
+
+      if (!email || !password) {
+        showAlert('error', 'Enter your email and password above first, then click Admin Dashboard.');
+        return;
+      }
+
+      const adminBtn = document.getElementById('adminBtn');
+      adminBtn.textContent = 'Checking access…';
+      adminBtn.disabled = true;
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const userDocSnap = await getDoc(doc(db, 'users', userCredential.user.uid));
+
+        if (userDocSnap.exists() && userDocSnap.data().isAdmin === true) {
+          // ✅ Admin confirmed — go to dashboard
+          window.location.href = './admin.html';
+        } else {
+          // ❌ Not an admin — sign out and show notice
+          await signOut(auth);
+          document.getElementById('noAccessBanner').classList.add('show');
+          adminBtn.textContent = 'Admin Dashboard';
+          adminBtn.disabled = false;
+        }
+      } catch (error) {
+        console.error("Admin login error:", error.code);
+        const errorMessages = {
+          'auth/invalid-credential': 'Wrong email or password.',
+          'auth/too-many-requests': 'Too many attempts. Try again later.',
+        };
+        showAlert('error', errorMessages[error.code] || 'Login failed. Try again.');
+        adminBtn.textContent = 'Admin Dashboard';
+        adminBtn.disabled = false;
+      }
+    });
+
+    window.togglePwd = function () {
+      const pwd = document.getElementById('pwdInput');
+      pwd.type = pwd.type === 'password' ? 'text' : 'password';
+    };
+
+    window.goBack = function () {
+      document.getElementById('googleCard').classList.remove('active');
+      document.getElementById('mainCard').classList.add('active');
+    };
+
+    function showAlert(type, message) {
+      const wrap = document.getElementById('alertWrap');
+      const existing = wrap.querySelector('.alert-box');
+      if (existing) { existing.classList.add('hide'); setTimeout(() => existing.remove(), 300); }
+      const box = document.createElement('div');
+      box.className = 'alert-box ' + (type === 'success' ? 'alert-success' : 'alert-error');
+      box.innerHTML = `<span style="font-size:20px">${type === 'success' ? '👑' : '😢'}</span><span>${message}</span>`;
+      wrap.appendChild(box);
+      requestAnimationFrame(() => requestAnimationFrame(() => box.classList.add('show')));
+      setTimeout(() => { box.classList.add('hide'); setTimeout(() => box.remove(), 350); }, 3500);
+    }
+  </script>
+
+  <div class="alert-wrap" id="alertWrap"></div>
+</body>
+</html>
