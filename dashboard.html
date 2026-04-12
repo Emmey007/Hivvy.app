@@ -1386,7 +1386,7 @@
       margin-top: 3px;
     }
 
-  
+
 
     .msg-reaction-emoji-btn {
       background: var(--color-card-bg);
@@ -1648,19 +1648,20 @@
       border-radius: 50%;
     }
 
-   .message-bubble {
-  max-width: 65%;
-  min-width: 120px;    /* ADD THIS */
-  padding: 0.55rem 0.85rem;
-  border-radius: 15px;
-  font-size: 0.87rem;
-  line-height: 1.5;
-  cursor: default;
-  user-select: text;
-  word-break: break-word;
-  overflow-wrap: break-word;
-  white-space: normal;
-}
+    .message-bubble {
+      max-width: 65%;
+      min-width: 120px;
+      /* ADD THIS */
+      padding: 0.55rem 0.85rem;
+      border-radius: 15px;
+      font-size: 0.87rem;
+      line-height: 1.5;
+      cursor: default;
+      user-select: text;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+    }
 
     .chat-message-row.sent-by-me .message-bubble {
       background: var(--color-brand);
@@ -1724,27 +1725,27 @@
       gap: 9px;
     }
 
- .chat-input-wrapper {
-  flex: 1;
-  min-width: 0;
-}
+    .chat-input-wrapper {
+      flex: 1;
+      min-width: 0;
+    }
 
-.chat-message-input {
-  width: 100%;
-  box-sizing: border-box;
-  border: 1px solid var(--color-border);
-  border-radius: 1.25rem;
-  padding: 0.625rem 1rem;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.89rem;
-  outline: none;
-  resize: none;
-  min-height: 2.75rem;
-  max-height: 8.75rem;
-  overflow-y: auto;
-  line-height: 1.5;
-  display: block;
-}
+    .chat-message-input {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid var(--color-border);
+      border-radius: 1.25rem;
+      padding: 0.625rem 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.89rem;
+      outline: none;
+      resize: none;
+      min-height: 2.75rem;
+      max-height: 8.75rem;
+      overflow-y: auto;
+      line-height: 1.5;
+      display: block;
+    }
 
     .chat-message-input:focus {
       border-color: var(--color-brand-dark);
@@ -3083,15 +3084,17 @@
                   <span class="material-symbols-outlined" style="font-size:0.9rem;">close</span>
                 </button>
               </div>
-             <div style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1.1rem;width:100%;box-sizing:border-box;">
-  <button class="composer-action-btn" id="chatAttachBtn" title="Attach file" style="flex-shrink:0;">
-    <span class="material-symbols-outlined">attach_file</span>
-  </button>
-  <textarea class="chat-message-input" id="chatMessageInput" placeholder="Type a message…" rows="1"></textarea>
-  <button class="send-message-btn" id="sendMsgBtn" style="flex-shrink:0;">
-    <span class="material-symbols-outlined">send</span>
-  </button>
-</div>
+              <div
+                style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1.1rem;width:100%;box-sizing:border-box;">
+                <button class="composer-action-btn" id="chatAttachBtn" title="Attach file" style="flex-shrink:0;">
+                  <span class="material-symbols-outlined">attach_file</span>
+                </button>
+                <textarea class="chat-message-input" id="chatMessageInput" placeholder="Type a message…"
+                  rows="1"></textarea>
+                <button class="send-message-btn" id="sendMsgBtn" style="flex-shrink:0;">
+                  <span class="material-symbols-outlined">send</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -4763,9 +4766,14 @@
       actionsDiv.className = 'chat-header-actions';
       const feedBtn = document.createElement('button');
       feedBtn.className = 'chat-header-action-btn';
-      feedBtn.title = 'Go to Feed';
-      feedBtn.innerHTML = '<span class="material-symbols-outlined">home</span>';
-      feedBtn.addEventListener('click', () => showPage('feed', $('nav-feed')));
+      feedBtn.title = 'Back to contacts';
+      feedBtn.innerHTML = '<span class="material-symbols-outlined">arrow_back</span>';
+      feedBtn.addEventListener('click', () => {
+        $('chatConversationList')?.classList.remove('is-hidden');
+        $('chatMessageWindow')?.classList.remove('is-open');
+        openChatUID = null;
+        document.querySelectorAll('.chat-conversation-item').forEach(el => el.classList.remove('active'));
+      });
       const optWrap = document.createElement('div');
       optWrap.className = 'chat-options-wrapper';
       const optBtn = document.createElement('button');
@@ -5529,9 +5537,9 @@
       });
     }
     $('chatMessageInput')?.addEventListener('input', function () {
-  this.style.height = 'auto';
-  this.style.height = Math.min(this.scrollHeight, 140) + 'px';
-});
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 140) + 'px';
+    });
   </script>
 </body>
 
