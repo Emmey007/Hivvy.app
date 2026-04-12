@@ -275,27 +275,27 @@
         </div>
     </div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyBA7iogs95p1azQ7gQ6tYZHspP7oDXmH-s",
-        authDomain: "hivvy-59a52.firebaseapp.com",
-        projectId: "hivvy-59a52",
-        storageBucket: "hivvy-59a52.firebasestorage.app",
-        messagingSenderId: "557372038667",
-        appId: "1:557372038667:web:bf4e84d069cef9406c710e"
-    };
+        const firebaseConfig = {
+            apiKey: "AIzaSyBA7iogs95p1azQ7gQ6tYZHspP7oDXmH-s",
+            authDomain: "hivvy-59a52.firebaseapp.com",
+            projectId: "hivvy-59a52",
+            storageBucket: "hivvy-59a52.firebasestorage.app",
+            messagingSenderId: "557372038667",
+            appId: "1:557372038667:web:bf4e84d069cef9406c710e"
+        };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-    // ✅ Inject alert styles
-    const style = document.createElement('style');
-    style.textContent = `
+        // ✅ Inject alert styles
+        const style = document.createElement('style');
+        style.textContent = `
         .hivvy-alert-wrap {
             position: fixed;
             top: 28px;
@@ -382,22 +382,22 @@
             to { transform: scaleX(0); }
         }
     `;
-    document.head.appendChild(style);
+        document.head.appendChild(style);
 
-    // ✅ Create alert container
-    const alertWrap = document.createElement('div');
-    alertWrap.className = 'hivvy-alert-wrap';
-    document.body.appendChild(alertWrap);
+        // ✅ Create alert container
+        const alertWrap = document.createElement('div');
+        alertWrap.className = 'hivvy-alert-wrap';
+        document.body.appendChild(alertWrap);
 
-    function showAlert(type, title, sub) {
-        const existing = alertWrap.querySelector('.hivvy-alert');
-        if (existing) { existing.classList.add('hide'); setTimeout(() => existing.remove(), 350); }
+        function showAlert(type, title, sub) {
+            const existing = alertWrap.querySelector('.hivvy-alert');
+            if (existing) { existing.classList.add('hide'); setTimeout(() => existing.remove(), 350); }
 
-        const box = document.createElement('div');
-        box.className = `hivvy-alert hivvy-alert-${type}`;
-        box.style.position = 'relative';
-        box.style.overflow = 'hidden';
-        box.innerHTML = `
+            const box = document.createElement('div');
+            box.className = `hivvy-alert hivvy-alert-${type}`;
+            box.style.position = 'relative';
+            box.style.overflow = 'hidden';
+            box.innerHTML = `
             <div class="hivvy-alert-icon">${type === 'success' ? '🎉' : '😢'}</div>
             <div class="hivvy-alert-text">
                 <div class="hivvy-alert-title">${title}</div>
@@ -405,48 +405,48 @@
             </div>
             <div class="hivvy-alert-progress"></div>
         `;
-        alertWrap.appendChild(box);
-        requestAnimationFrame(() => requestAnimationFrame(() => box.classList.add('show')));
-        setTimeout(() => { box.classList.add('hide'); setTimeout(() => box.remove(), 400); }, 3500);
-    }
-
-    document.getElementById('signup').addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const username = e.target.username.value.trim();
-        const email = e.target.email.value.trim();
-        const password = e.target.password.value;
-
-        const btn = e.target.querySelector('.btn-primary');
-        btn.disabled = true;
-        btn.textContent = 'Creating account...';
-
-        try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
-            await setDoc(doc(db, 'users', userCredential.user.uid), {
-                uid: userCredential.user.uid,
-                username: username,
-                email: email
-            });
-
-            showAlert('success', 'Account created successfully! 🚀', 'Redirecting you to login...');
-            setTimeout(() => window.location.href = './login.html', 2500);
-
-        } catch (error) {
-            console.error("Signup error:", error.code, error.message);
-
-            let msg = 'Something went wrong. Try again.';
-            if (error.code === 'auth/email-already-in-use') msg = 'That email is already registered.';
-            if (error.code === 'auth/weak-password') msg = 'Password must be at least 6 characters.';
-            if (error.code === 'auth/invalid-email') msg = 'Please enter a valid email address.';
-
-            showAlert('error', 'Signup failed', msg);
-            btn.disabled = false;
-            btn.textContent = 'Sign Up';
+            alertWrap.appendChild(box);
+            requestAnimationFrame(() => requestAnimationFrame(() => box.classList.add('show')));
+            setTimeout(() => { box.classList.add('hide'); setTimeout(() => box.remove(), 400); }, 3500);
         }
-    });
-</script>
+
+        document.getElementById('signup').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = e.target.username.value.trim();
+            const email = e.target.email.value.trim();
+            const password = e.target.password.value;
+
+            const btn = e.target.querySelector('.btn-primary');
+            btn.disabled = true;
+            btn.textContent = 'Creating account...';
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+                await setDoc(doc(db, 'users', userCredential.user.uid), {
+                    uid: userCredential.user.uid,
+                    username: username,
+                    email: email
+                });
+
+                showAlert('success', 'Account created successfully! 🚀', 'Redirecting you to login...');
+                setTimeout(() => window.location.href = './login.html', 2500);
+
+            } catch (error) {
+                console.error("Signup error:", error.code, error.message);
+
+                let msg = 'Something went wrong. Try again.';
+                if (error.code === 'auth/email-already-in-use') msg = 'That email is already registered.';
+                if (error.code === 'auth/weak-password') msg = 'Password must be at least 6 characters.';
+                if (error.code === 'auth/invalid-email') msg = 'Please enter a valid email address.';
+
+                showAlert('error', 'Signup failed', msg);
+                btn.disabled = false;
+                btn.textContent = 'Sign Up';
+            }
+        });
+    </script>
 </body>
 
 </html>
