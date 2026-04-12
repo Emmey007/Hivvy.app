@@ -1648,8 +1648,9 @@
       border-radius: 50%;
     }
 
-  .message-bubble {
-  max-width: 95%;
+   .message-bubble {
+  max-width: 65%;
+  min-width: 120px;    /* ADD THIS */
   padding: 0.55rem 0.85rem;
   border-radius: 15px;
   font-size: 0.87rem;
@@ -1657,8 +1658,8 @@
   cursor: default;
   user-select: text;
   word-break: break-word;
-  overflow-wrap: break-word;   /* ADD THIS */
-  min-width: 60px;             /* ADD THIS — prevents single words squishing */
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
     .chat-message-row.sent-by-me .message-bubble {
@@ -1714,14 +1715,14 @@
     }
 
     /* ── CHAT INPUT ── */
-   .chat-input-area {
-  display: flex;
-  align-items: flex-end;
-  gap: 8px;
-  padding: 0.75rem 1.1rem;
-  background: var(--color-card-bg);
-  border-top: 1px solid var(--color-border);
-}
+    .chat-input-area {
+      background: var(--color-card-bg);
+      padding: 0.75rem 1.1rem;
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      align-items: flex-end;
+      gap: 9px;
+    }
 
  .chat-input-wrapper {
   flex: 1;
@@ -2811,7 +2812,7 @@
       }
 
       .message-bubble {
-        max-width: 80%;
+        max-width: 82%;
         font-size: 0.84rem;
         padding: 0.5rem 0.75rem;
       }
@@ -3082,6 +3083,7 @@
                   <span class="material-symbols-outlined" style="font-size:0.9rem;">close</span>
                 </button>
               </div>
+             <div style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1.1rem;width:100%;box-sizing:border-box;">
   <button class="composer-action-btn" id="chatAttachBtn" title="Attach file" style="flex-shrink:0;">
     <span class="material-symbols-outlined">attach_file</span>
   </button>
