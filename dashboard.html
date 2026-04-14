@@ -4410,20 +4410,40 @@
       });
     }
 
-    async function toggleFollow(uid) {
-      followedUIDs[uid] = !followedUIDs[uid];
-      currentUser.followingCount = Object.values(followedUIDs).filter(Boolean).length;
-      setText('feedFollowingCount', currentUser.followingCount);
-      setText('profilePageFollowingCount', currentUser.followingCount);
-      try {
-        await updateDoc(doc(db, 'users', fbUser.uid), { followedUIDs, followingCount: currentUser.followingCount });
-        await updateDoc(doc(db, 'users', uid), { followerCount: increment(followedUIDs[uid] ? 1 : -1) });
-        if (followedUIDs[uid]) await sendNotification(uid, 'follow', `<b>${currentUser.displayName}</b> started following you.`);
-      } catch (e) { console.error('Follow error:', e); }
-      const u = realUsers[uid];
-      showToast(followedUIDs[uid] ? 'Following ' + (u?.displayName || 'user') : 'Unfollowed', followedUIDs[uid] ? 'person_add' : 'person_remove');
-      renderChatContactList();
-    }
+  async function toggleFollow(uid) {
+  followedUIDs[uid] = !followedUIDs[uid];
+  const isNowFollowing = followedUIDs[uid];
+  currentUser.followingCount = Object.values(followedUIDs).filter(Boolean).length;
+  setText('feedFollowingCount', currentUser.followingCount);
+  setText('profilePageFollowingCount', currentUser.followingCount);
+
+  // Update realUsers locally so UI reflects immediately
+  if (realUsers[uid]) {
+    realUsers[uid].followerCount = (realUsers[uid].followerCount || 0) + (isNowFollowing ? 1 : -1);
+  }
+
+  try {
+    await updateDoc(doc(db, 'users', fbUser.uid), {
+      [`followedUIDs.${uid}`]: isNowFollowing,
+      followingCount: currentUser.followingCount
+    });
+    await updateDoc(doc(db, 'users', uid), {
+      followerCount: increment(isNowFollowing ? 1 : -1)
+    });
+    if (isNowFollowing) await sendNotification(uid, 'follow', `<b>${currentUser.displayName}</b> started following you.`);
+  } catch (e) { console.error('Follow error:', e); }
+
+  const u = realUsers[uid];
+  showToast(isNowFollowing ? 'Following ' + (u?.displayName || 'user') : 'Unfollowed', isNowFollowing ? 'person_add' : 'person_remove');
+
+  // Re-render everything that shows follower counts
+  renderChatContactList();
+  renderSuggestedUsers();
+  renderLeaderboard();
+  if (viewingUserUID === uid) {
+    setText('userProfileModalFollowers', realUsers[uid]?.followerCount || 0);
+  }
+}
 
     // ── FIX 3: openUserProfileModal — Firestore fallback for posts not in feedPosts ──
     async function openUserProfileModal(uid) {
