@@ -595,11 +595,24 @@
     </div>
   </div>
 
+  <div class="alert-wrap" id="alertWrap"></div>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup }
-      from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      signOut,
+      GoogleAuthProvider,
+      signInWithPopup
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      setDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBA7iogs95p1azQ7gQ6tYZHspP7oDXmH-s",
@@ -614,13 +627,15 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // ── SHOW BANNERS FROM URL PARAMS ──
+    // ── SHOW BANNERS FROM URL PARAMS (then clean the URL) ──
     const params = new URLSearchParams(window.location.search);
     if (params.get('error') === 'banned') {
       document.getElementById('bannedBanner').classList.add('show');
+      window.history.replaceState({}, '', window.location.pathname);
     }
     if (params.get('error') === 'noaccess') {
       document.getElementById('noAccessBanner').classList.add('show');
+      window.history.replaceState({}, '', window.location.pathname);
     }
 
     const signInForm = document.getElementById('signin');
@@ -644,8 +659,11 @@
       try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const userDocSnap = await getDoc(doc(db, 'users', userCredential.user.uid));
+        console.log('UID:', userCredential.user.uid);
+console.log('Doc exists:', userDocSnap.exists());
+console.log('Doc data:', userDocSnap.data());
+        
 
-        // Block banned users
         if (userDocSnap.exists() && userDocSnap.data().status === 'banned') {
           await signOut(auth);
           document.getElementById('bannedBanner').classList.add('show');
@@ -675,23 +693,52 @@
     });
 
     // ── GOOGLE SIGN IN ──
-    document.getElementById('googlesign').addEventListener('click', () => {
+    document.getElementById('googlesign').addEventListener('click', async () => {
       const provider = new GoogleAuthProvider();
-      signInWithPopup(auth, provider)
-        .then(async (result) => {
-          const userDocSnap = await getDoc(doc(db, 'users', result.user.uid));
-          if (userDocSnap.exists() && userDocSnap.data().status === 'banned') {
+      provider.setCustomParameters({ prompt: 'select_account' });
+
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const uid = result.user.uid;
+        const userRef = doc(db, 'users', uid);
+        const userDocSnap = await getDoc(userRef);
+        console.log('Google UID:', uid);
+console.log('Doc exists:', userDocSnap.exists());
+console.log('Doc data:', userDocSnap.data());
+
+        if (userDocSnap.exists()) {
+          // Existing user — check if banned
+          if (userDocSnap.data().status === 'banned') {
             await signOut(auth);
             document.getElementById('bannedBanner').classList.add('show');
             return;
           }
-          showAlert('success', "You're logged in, champ! 👑");
-          setTimeout(() => window.location.href = './dashboard.html', 1500);
-        })
-        .catch((error) => {
+        } else {
+          // New Google user — create their Firestore document
+          await setDoc(userRef, {
+            name: result.user.displayName,
+            email: result.user.email,
+            photoURL: result.user.photoURL,
+            status: 'active',
+            isAdmin: false,
+            createdAt: serverTimestamp(),
+            provider: 'google',
+          });
+        }
+
+        showAlert('success', "You're logged in, champ! 👑");
+        setTimeout(() => window.location.href = './dashboard.html', 1500);
+
+      } catch (error) {
+        if (error.code === 'auth/popup-blocked') {
+          showAlert('error', 'Popup was blocked. Please allow popups for this site.');
+        } else if (error.code === 'auth/popup-closed-by-user') {
+          // User dismissed — no error needed
+        } else {
           console.error("Google sign-in error:", error.code, error.message);
           showAlert('error', 'Google sign-in failed. Try again.');
-        });
+        }
+      }
     });
 
     // ── ADMIN DASHBOARD BUTTON ──
@@ -719,7 +766,7 @@
           // ❌ Not an admin — sign out and show notice
           await signOut(auth);
           document.getElementById('noAccessBanner').classList.add('show');
-          adminBtn.textContent = 'Admin Dashboard';
+          adminBtn.innerHTML = `<span class="s-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1ZM12 11.99H19C18.47 16.11 15.72 19.78 12 20.93V12H5V6.3L12 3.19V11.99Z" fill="currentColor"/></svg></span> Admin Dashboard`;
           adminBtn.disabled = false;
         }
       } catch (error) {
@@ -729,7 +776,7 @@
           'auth/too-many-requests': 'Too many attempts. Try again later.',
         };
         showAlert('error', errorMessages[error.code] || 'Login failed. Try again.');
-        adminBtn.textContent = 'Admin Dashboard';
+        adminBtn.innerHTML = `<span class="s-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1ZM12 11.99H19C18.47 16.11 15.72 19.78 12 20.93V12H5V6.3L12 3.19V11.99Z" fill="currentColor"/></svg></span> Admin Dashboard`;
         adminBtn.disabled = false;
       }
     });
@@ -756,6 +803,5 @@
       setTimeout(() => { box.classList.add('hide'); setTimeout(() => box.remove(), 350); }, 3500);
     }
   </script>
-  <div class="alert-wrap" id="alertWrap"></div>
 </body>
 </html>
