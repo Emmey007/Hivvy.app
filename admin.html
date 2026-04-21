@@ -1287,8 +1287,7 @@
 
       fbUser = user;
       const snap = await getDoc(doc(db, 'users', user.uid));
-
-      if (!snap.exists() || !snap.data().isAdmin) {
+if (!snap.exists() || (!snap.data().isAdmin && !snap.data().admin)) {
         await signOut(auth);
         window.location.href = './login.html?error=noaccess';
         return;
@@ -1344,7 +1343,7 @@
         active: (u) => !u.status || u.status === 'active',
         banned: (u) => u.status === 'banned',
         timeout: (u) => u.status === 'timeout',
-        admin: (u) => u.isAdmin,
+        admin: (u) => u.isAdmin || u.admin,
       };
 
       if (filterMap[activeUserFilter]) {
@@ -1399,7 +1398,7 @@
       const isSelf = u.uid === fbUser.uid;
       const postCount = allUsers[u.uid]?.postCount || 0;
 
-      const statusBadge = u.isAdmin
+      const statusBadge = (u.isAdmin || u.admin)
         ? badge('admin', 'ADMIN')
         : status === 'banned' ? badge('banned', 'BANNED')
           : status === 'timeout' ? badge('timeout', 'TIMEOUT')
@@ -1751,7 +1750,7 @@
 
     window.revokeAdmin = async (uid) => {
       try {
-        await updateDoc(doc(db, 'users', uid), { isAdmin: false });
+       await updateDoc(doc(db, 'users', uid), { isAdmin: false, admin: false });
         allUsers[uid].isAdmin = false;
         renderAdminRoster();
         populateGrantSelect();
@@ -1768,20 +1767,22 @@
     });
 
     el('confirmGrantAdminBtn').addEventListener('click', async () => {
-      const uid = el('grantAdminUserSelect').value;
-      if (!uid) { showToast('Select a user first', 'error'); return; }
-      try {
-        await updateDoc(doc(db, 'users', uid), { isAdmin: true });
-        allUsers[uid].isAdmin = true;
-        closeModal('grantAdminModal');
-        renderAdminRoster();
-        populateGrantSelect();
-        showToast('Admin access granted ✓', 'admin_panel_settings');
-      } catch (e) {
-        console.error(e);
-        showToast('Could not grant access', 'error');
-      }
-    });
+  const uid = el('grantAdminUserSelect').value;
+  if (!uid) { showToast('Select a user first', 'error'); return; }
+  try {
+    await updateDoc(doc(db, 'users', uid), { isAdmin: true, admin: true });
+    allUsers[uid].isAdmin = true;
+    allUsers[uid].admin = true;
+    closeModal('grantAdminModal');
+    renderAdminRoster();
+    renderUsersTable();
+    populateGrantSelect();
+    showToast('Admin access granted ✓', 'admin_panel_settings');
+  } catch (e) {
+    console.error(e);
+    showToast('Could not grant access', 'error');
+  }
+});
 
     // ── NAV ───────────────────────────────────────────────────────────────────────
 

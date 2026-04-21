@@ -3673,6 +3673,18 @@
       $('removePendingFileBtn').addEventListener('click', clearPendingChatFile);
       $('chatMessageInput').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChatMessage(); } });
       $('chatSearchInput').addEventListener('input', (e) => filterChatContacts(e.target.value));
+      function filterChatContacts(query) {
+        const q = query.toLowerCase().trim();
+        const items = document.querySelectorAll('.chat-conversation-item');
+        items.forEach((item) => {
+          const uid = item.id.replace('chat-contact-', '');
+          const user = realUsers[uid];
+          if (!user) { item.style.display = ''; return; }
+          const matchName = user.displayName.toLowerCase().includes(q);
+          const matchHandle = user.username.toLowerCase().includes(q);
+          item.style.display = (matchName || matchHandle || q === '') ? '' : 'none';
+        });
+      }
       $('unblockBtn').addEventListener('click', () => { if (openChatUID) unblockUser(openChatUID); });
       $('closeUserProfileModalBtn').addEventListener('click', () => $('userProfileModal').classList.remove('open'));
       $('userProfileModal').addEventListener('click', (e) => { if (e.target.id === 'userProfileModal') $('userProfileModal').classList.remove('open'); });
@@ -4410,40 +4422,40 @@
       });
     }
 
-  async function toggleFollow(uid) {
-  followedUIDs[uid] = !followedUIDs[uid];
-  const isNowFollowing = followedUIDs[uid];
-  currentUser.followingCount = Object.values(followedUIDs).filter(Boolean).length;
-  setText('feedFollowingCount', currentUser.followingCount);
-  setText('profilePageFollowingCount', currentUser.followingCount);
+    async function toggleFollow(uid) {
+      followedUIDs[uid] = !followedUIDs[uid];
+      const isNowFollowing = followedUIDs[uid];
+      currentUser.followingCount = Object.values(followedUIDs).filter(Boolean).length;
+      setText('feedFollowingCount', currentUser.followingCount);
+      setText('profilePageFollowingCount', currentUser.followingCount);
 
-  // Update realUsers locally so UI reflects immediately
-  if (realUsers[uid]) {
-    realUsers[uid].followerCount = (realUsers[uid].followerCount || 0) + (isNowFollowing ? 1 : -1);
-  }
+      // Update realUsers locally so UI reflects immediately
+      if (realUsers[uid]) {
+        realUsers[uid].followerCount = (realUsers[uid].followerCount || 0) + (isNowFollowing ? 1 : -1);
+      }
 
-  try {
-    await updateDoc(doc(db, 'users', fbUser.uid), {
-      [`followedUIDs.${uid}`]: isNowFollowing,
-      followingCount: currentUser.followingCount
-    });
-    await updateDoc(doc(db, 'users', uid), {
-      followerCount: increment(isNowFollowing ? 1 : -1)
-    });
-    if (isNowFollowing) await sendNotification(uid, 'follow', `<b>${currentUser.displayName}</b> started following you.`);
-  } catch (e) { console.error('Follow error:', e); }
+      try {
+        await updateDoc(doc(db, 'users', fbUser.uid), {
+          [`followedUIDs.${uid}`]: isNowFollowing,
+          followingCount: currentUser.followingCount
+        });
+        await updateDoc(doc(db, 'users', uid), {
+          followerCount: increment(isNowFollowing ? 1 : -1)
+        });
+        if (isNowFollowing) await sendNotification(uid, 'follow', `<b>${currentUser.displayName}</b> started following you.`);
+      } catch (e) { console.error('Follow error:', e); }
 
-  const u = realUsers[uid];
-  showToast(isNowFollowing ? 'Following ' + (u?.displayName || 'user') : 'Unfollowed', isNowFollowing ? 'person_add' : 'person_remove');
+      const u = realUsers[uid];
+      showToast(isNowFollowing ? 'Following ' + (u?.displayName || 'user') : 'Unfollowed', isNowFollowing ? 'person_add' : 'person_remove');
 
-  // Re-render everything that shows follower counts
-  renderChatContactList();
-  renderSuggestedUsers();
-  renderLeaderboard();
-  if (viewingUserUID === uid) {
-    setText('userProfileModalFollowers', realUsers[uid]?.followerCount || 0);
-  }
-}
+      // Re-render everything that shows follower counts
+      renderChatContactList();
+      renderSuggestedUsers();
+      renderLeaderboard();
+      if (viewingUserUID === uid) {
+        setText('userProfileModalFollowers', realUsers[uid]?.followerCount || 0);
+      }
+    }
 
     // ── FIX 3: openUserProfileModal — Firestore fallback for posts not in feedPosts ──
     async function openUserProfileModal(uid) {
@@ -4762,6 +4774,9 @@
           $('chatConversationList')?.classList.remove('is-hidden');
           $('chatMessageWindow')?.classList.remove('is-open');
           openChatUID = null;
+          document.querySelectorAll('.chat-conversation-item').forEach(el => el.classList.remove('active'));
+          $('noConversationSelected').style.display = '';
+          $('activeConversationPanel').style.display = 'none';
         });
         hdr.appendChild(bk);
       }
@@ -4793,6 +4808,8 @@
         $('chatMessageWindow')?.classList.remove('is-open');
         openChatUID = null;
         document.querySelectorAll('.chat-conversation-item').forEach(el => el.classList.remove('active'));
+        $('noConversationSelected').style.display = '';
+        $('activeConversationPanel').style.display = 'none';
       });
       const optWrap = document.createElement('div');
       optWrap.className = 'chat-options-wrapper';
